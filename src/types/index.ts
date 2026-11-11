@@ -128,8 +128,14 @@ export interface InternetPackage {
 
 export interface PricingConfig {
   id: string;
-  baseSimPrice: number; // قیمت پایه سیمکارت
-  saleSimPrice: number; // قیمت فروش سیمکارت
+  permanentSimPrice: number; // قیمت سیم‌کارت دائمی به تومان
+  permanentSimSalePrice?: number; // قیمت با تخفیف سیم‌کارت دائمی
+  isPermanentAvailable?: boolean; // وضعیت فروش سیم‌کارت دائمی
+  creditSimPrice: number; // قیمت سیم‌کارت اعتباری به تومان
+  creditSimSalePrice?: number; // قیمت با تخفیف سیم‌کارت اعتباری
+  isCreditAvailable?: boolean; // وضعیت فروش سیم‌کارت اعتباری
+  baseSimPrice: number; // قیمت پایه سیمکارت (سازگاری عمومی)
+  saleSimPrice: number; // قیمت فروش سیمکارت (سازگاری عمومی)
   activationFee: number; // هزینه فعال‌سازی (معمولا 0 یا رایگان)
   serviceFee: number; // هزینه خدمات و ارزش افزوده
   defaultDiscountPercent: number; // درصد تخفیف پیش‌فرض
@@ -219,13 +225,14 @@ export interface StoreContent {
 }
 
 // ==========================================
-// ADMIN USERS
+// ADMIN USERS & ROLES
 // ==========================================
 
-export type AdminRole = 'Admin' | 'Manager' | 'Support';
+export type AdminRole = 'Owner' | 'Operator';
 
 export interface AdminUser {
   id: string;
+  username: string;
   fullName: string;
   mobile: string;
   email: string;
@@ -234,6 +241,11 @@ export interface AdminUser {
   lastLogin: string;
   avatarUrl?: string;
   createdAt: string;
+}
+
+export interface AuthSession {
+  user: AdminUser;
+  token: string;
 }
 
 // ==========================================

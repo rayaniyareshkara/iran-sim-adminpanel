@@ -1,0 +1,280 @@
+login as: root
+root@87.248.152.64's password:
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Thu Oct 29 10:55:09 AM UTC 2026
+
+  System load:  0.19               Processes:             206
+  Usage of /:   57.7% of 19.58GB   Users logged in:       1
+  Memory usage: 62%                IPv4 address for eth0: 87.248.152.64
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+263 updates can be applied immediately.
+195 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Thu Oct 29 10:31:43 2026 from 5.237.0.249
+root@irvm-156685:~# docker exec -i irancell_pg psql -U pgadmin -d irancell_simcard << 'EOF'
+-- ۱. اتصالات فعال سرورهای اسکرپر و آخرین کوئری که دارند اجرا می‌کنند
+SELECT client_addr, state, query_start, LEFT(query, 120) AS current_query
+FROM pg_stat_activity
+WHERE datname = 'irancell_simcard' AND pid <> pg_backend_pid();
+
+-- ۲. وضعیت تمام جداول اسکرپت
+SELECT * FROM scrape_run_state;
+EOF
+
+docker ps
+  client_addr   | state |          query_start          |                                                 current_query                                         
+----------------+-------+-------------------------------+---------------------------------------------------------------------------------------------------------------
+                | idle  | 2026-09-25 22:17:17.261938+00 | SELECT                                                                                                       +
+                |       |                               |   d.datname as "Name",                                                                                       +
+                |       |                               |   pg_catalog.pg_get_userbyid(d.datdba) as "Owner",                                                           +
+                |       |                               |   pg_catalog.pg_encoding_to_char(d.enco
+                | idle  | 2026-09-26 11:42:01.878615+00 | SELECT c.oid::pg_catalog.regclass, c.relkind, inhdetachpending, pg_catalog.pg_get_expr(c.relpartbound, c.oid)+
+                |       |                               | FROM pg_ca
+                | idle  | 2026-09-26 12:00:57.878342+00 | EXPLAIN ANALYZE SELECT number FROM star_0900_single WHERE number LIKE '900 - 1%' LIMIT 20;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.314872+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.310851+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.623711+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.625053+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.620173+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.623512+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:48.008248+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.973537+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.975367+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.974385+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.62136+00  | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+                | idle  | 2026-09-29 11:12:39.915094+00 | SELECT pid, state, query_start, query FROM pg_stat_activity WHERE client_addr = '87.107.165.135' LIMIT 5;
+                | idle  | 2026-09-29 11:14:42.874938+00 | SELECT pid, state, query_start, query FROM pg_stat_activity WHERE client_addr = '87.107.165.135' LIMIT 5;
+                | idle  | 2026-10-04 19:36:37.250194+00 |                                                                                                              +
+                |       |                               | SELECT pattern FROM scrape_pattern_buckets                                                                   +
+                |       |                               | WHERE target_table = 'simple_credit' AND pattern LIKE '%******'                                              +
+                |       |                               | ORDER BY p
+                | idle  | 2026-10-03 07:20:25.305754+00 | SELECT c.oid::pg_catalog.regclass, c.relkind, inhdetachpending, pg_catalog.pg_get_expr(c.relpartbound, c.oid)+
+                |       |                               | FROM pg_ca
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.622812+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.625722+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.620065+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.62269+00  | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.54  | idle  | 2026-10-29 10:54:28.637114+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.645745+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.630689+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.631684+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.628647+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.316743+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.314685+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.310612+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.314762+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.310682+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.310784+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.326507+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.107.165.135 | idle  | 2026-10-29 10:55:03.309543+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.741407+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.975561+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.978735+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.634858+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.632854+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.628995+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.633454+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.978931+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.633771+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.29  | idle  | 2026-10-29 10:55:25.633069+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.97915+00  | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.724622+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.723179+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.725666+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.975152+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.728036+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.728076+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.727777+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.723576+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.728214+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.164 | idle  | 2026-10-29 10:54:47.72761+00  | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.130.178 | idle  | 2026-10-29 10:52:31.780183+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+ 87.248.155.55  | idle  | 2026-10-29 10:54:47.975062+00 | SELECT pg_advisory_unlock_all();                                                                             +
+                |       |                               | CLOSE ALL;                                                                                                   +
+                |       |                               | UNLISTEN *;                                                                                                  +
+                |       |                               | RESET ALL;
+(58 rows)
+
+   target_table   | active_slot | generation |          updated_at
+------------------+-------------+------------+-------------------------------
+ simple_permanent | b           |          2 | 2026-10-24 03:20:02.66907+00
+ simple_credit    | a           |          3 | 2026-10-29 09:51:46.127405+00
+ star_0900_single | a           |          3 | 2026-10-29 10:43:28.440288+00
+(3 rows)
+
+CONTAINER ID   IMAGE                         COMMAND                  CREATED        STATUS                 PORTS                                         NAMES
+6c87f7f2c4e2   iransiim-store-admin:api      "docker-entrypoint.s…"   5 weeks ago    Up 4 weeks (healthy)   8787/tcp                                      iransiim-api
+a7b5dd04bcb6   iransiim-store-admin:latest   "/docker-entrypoint.…"   5 weeks ago    Up 4 weeks (healthy)   127.0.0.1:8080->80/tcp                        iransiim-web
+fffc0d8246b8   irancell-storefront:latest    "docker-entrypoint.s…"   7 weeks ago    Up 4 weeks             127.0.0.1:3000->3000/tcp                      sasa-storefront-1
+3fe3052d280c   irancel_scarper-backend       "uvicorn main:app --…"   7 weeks ago    Up 3 days              0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp   irancel_scarper-backend-1
+b292c0f67617   postgres:16                   "docker-entrypoint.s…"   3 months ago   Up 4 weeks             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   irancell_pg
+root@irvm-156685:~#

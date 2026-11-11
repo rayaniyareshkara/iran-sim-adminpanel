@@ -5,15 +5,25 @@
 
 import React from 'react';
 import { RouterProvider, useRouter } from './router';
+import { AuthProvider, useAuth } from './services/authContext';
 import { AdminOrdersListView } from './views/admin/AdminOrdersListView';
 import { AdminOrderDetailView } from './views/admin/AdminOrderDetailView';
 import { AdminDashboardView } from './views/admin/AdminDashboardView';
-import { AdminGenericView } from './views/admin/AdminGenericView';
+import { AdminSimPricingView } from './views/admin/AdminSimPricingView';
+import { AdminUsersView } from './views/admin/AdminUsersView';
+import { AdminProfileView } from './views/admin/AdminProfileView';
+import { AdminLoginView } from './views/admin/AdminLoginView';
 
 const AppContent: React.FC = () => {
   const { path } = useRouter();
+  const { isAuthenticated, isOwner } = useAuth();
 
-  // Admin Routes (this project only ever serves the management panel)
+  // If user is not logged in, show secure login view
+  if (!isAuthenticated) {
+    return <AdminLoginView />;
+  }
+
+  // Admin Routes: Orders, SIM Pricing, Users, Profile and Dashboard
   if (path.startsWith('/admin/orders/') && path !== '/admin/orders') {
     return <AdminOrderDetailView />;
   }
@@ -23,93 +33,28 @@ const AppContent: React.FC = () => {
   }
 
   if (path === '/admin/pricing') {
-    return (
-      <AdminGenericView
-        title="مدیریت قیمت‌ها"
-        subtitle="تعرفه سیم‌کارت و خدمات"
-        description="تنظیم قیمت پایه و فروش سیم‌کارت، کارمزد خدمات و تخفیف‌های پیش‌فرض"
-      />
-    );
-  }
-
-  if (path === '/admin/packages') {
-    return (
-      <AdminGenericView
-        title="بسته‌های اینترنت"
-        subtitle="مدیریت بسته‌های افزایشی"
-        description="تنظیم حجم، مدت اعتبار و تعرفه بسته‌های اینترنت همراه"
-      />
-    );
-  }
-
-  if (path === '/admin/shipping') {
-    return (
-      <AdminGenericView
-        title="روش‌های ارسال"
-        subtitle="پیک و پست پیشتاز"
-        description="تنظیم هزینه ارسال، تحویل اکسپرس و شیوه پس‌کرایه"
-      />
-    );
-  }
-
-  if (path === '/admin/discounts') {
-    return (
-      <AdminGenericView
-        title="کدهای تخفیف"
-        subtitle="کوپن‌ها و جشنواره‌ها"
-        description="ایجاد و نظارت بر کدهای تخفیف فعال"
-      />
-    );
-  }
-
-  if (path === '/admin/settings') {
-    return (
-      <AdminGenericView
-        title="تنظیمات فروشگاه"
-        subtitle="مشخصات نمایندگی رسمی"
-        description="ویرایش نام نمایندگی، تلفن‌های پشتیبانی و ساعت کاری"
-      />
-    );
-  }
-
-  if (path === '/admin/content') {
-    return (
-      <AdminGenericView
-        title="مدیریت محتوا"
-        subtitle="قوانین، آدرس و تماس"
-        description="تنظیم متن قوانین خرید، سوالات متداول و اطلاعات تماس"
-      />
-    );
+    return <AdminSimPricingView />;
   }
 
   if (path === '/admin/users') {
-    return (
-      <AdminGenericView
-        title="کاربران پنل"
-        subtitle="مدیران و اپراتورها"
-        description="مدیریت سطوح دسترسی و همکاران پنل مدیریت"
-      />
-    );
+    // Only owner can access user management
+    return isOwner ? <AdminUsersView /> : <AdminDashboardView />;
   }
 
-  if (path === '/admin/reports') {
-    return (
-      <AdminGenericView
-        title="گزارش‌ها و آمار"
-        subtitle="آمار تفکیکی فروش"
-        description="نمودار روند فروش، سفارش‌های موفق و گزارش مالی"
-      />
-    );
+  if (path === '/admin/profile') {
+    return <AdminProfileView />;
   }
 
-  // Default: dashboard (covers '/', '/admin', and any unknown admin path)
+  // Default: dashboard (covers '/', '/admin', and any unknown path)
   return <AdminDashboardView />;
 };
 
 export default function App() {
   return (
-    <RouterProvider>
-      <AppContent />
-    </RouterProvider>
+    <AuthProvider>
+      <RouterProvider>
+        <AppContent />
+      </RouterProvider>
+    </AuthProvider>
   );
 }

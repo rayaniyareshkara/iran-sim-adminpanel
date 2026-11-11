@@ -7,7 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from '../../router';
 import { AdminLayout } from '../../layouts/AdminLayout';
 import { orderService } from '../../services/orderService';
-import { Order } from '../../types';
+import { pricingService } from '../../services/pricingService';
+import { Order, PricingConfig } from '../../types';
 import {
   ShoppingBag,
   Phone,
@@ -21,19 +22,25 @@ import {
   Store,
   Sparkles,
   Users,
+  Tag,
 } from 'lucide-react';
 
 export const AdminDashboardView: React.FC = () => {
   const { navigate } = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [pricing, setPricing] = useState<PricingConfig | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
-        const list = await orderService.getOrders();
-        setOrders(list);
+        const [ordersList, pricingData] = await Promise.all([
+          orderService.getOrders(),
+          pricingService.getPricing(),
+        ]);
+        setOrders(ordersList);
+        setPricing(pricingData);
       } catch (err) {
         console.error('Failed to load dashboard:', err);
       } finally {
@@ -110,24 +117,83 @@ export const AdminDashboardView: React.FC = () => {
           </div>
         </div>
 
-        {/* Quick Access to Orders List Banner */}
-        <div className="bg-gradient-to-r from-blue-900/40 via-slate-900 to-amber-900/30 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Phone className="w-4 h-4 text-amber-400" />
-              <span>مدیریت شماره‌های سیم‌کارت خریداری‌شده</span>
-            </h3>
-            <p className="text-xs text-slate-400">
-              مشاهده و بررسی سریع خطوط ثبت‌شده، وضعیت فعال‌سازی و اطلاعات مشتریان
-            </p>
+        {/* Quick Access Banners */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-gradient-to-br from-blue-900/30 via-slate-900 to-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-blue-400" />
+                <span>مدیریت سفارش‌ها</span>
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                بررسی خطوط، اطلاعات خریداران و ارسال
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/admin/orders')}
+              className="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-between gap-2 cursor-pointer w-full"
+            >
+              <span>مشاهده سفارش‌ها</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
           </div>
-          <button
-            onClick={() => navigate('/admin/orders')}
-            className="px-4 py-2 bg-[#FFBE00] hover:bg-[#E5AA00] text-black font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer shrink-0"
-          >
-            <span>ورود به مدیریت سفارش‌ها</span>
-            <ArrowLeft className="w-3.5 h-3.5 stroke-[2.5]" />
-          </button>
+
+          <div className="bg-gradient-to-br from-amber-900/30 via-slate-900 to-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Tag className="w-4 h-4 text-amber-400" />
+                <span>تعرفه سیم‌کارت‌ها</span>
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                تنظیم و ثبت مستقیم قیمت خطوط
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/admin/pricing')}
+              className="px-3 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-between gap-2 cursor-pointer w-full"
+            >
+              <span>تنظیم قیمت‌ها</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-900/30 via-slate-900 to-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Users className="w-4 h-4 text-cyan-400" />
+                <span>مدیریت کاربران</span>
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                تعریف اپراتور جدید، دسترسی و نظارت
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/admin/users')}
+              className="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-between gap-2 cursor-pointer w-full"
+            >
+              <span>کاربران و نقش‌ها</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="bg-gradient-to-br from-emerald-900/30 via-slate-900 to-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>امنیت و تغییر رمز</span>
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                اطلاعات کاربری، تغییر پسورد و خروج
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/admin/profile')}
+              className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 shadow-md transition-all flex items-center justify-between gap-2 cursor-pointer w-full"
+            >
+              <span>پروفایل و رمز عبور</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
         {/* Recent Orders Section with Purchased Number Column */}

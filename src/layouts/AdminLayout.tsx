@@ -5,23 +5,22 @@
 
 import React, { useState } from 'react';
 import { useRouter } from '../router';
+import { useAuth } from '../services/authContext';
 import {
   LayoutDashboard,
-  DollarSign,
-  Wifi,
-  Truck,
   ShoppingBag,
   Tag,
-  Settings,
-  FileText,
-  Users,
-  BarChart3,
   Menu,
   X,
   Store,
-  Bell,
   ChevronLeft,
   UserCheck,
+  Shield,
+  KeyRound,
+  LogOut,
+  Lock,
+  Users,
+  User,
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -34,19 +33,15 @@ interface NavItem {
   title: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
+  ownerOnly?: boolean;
 }
 
 const adminNavItems: NavItem[] = [
   { title: 'داشبورد', path: '/admin', icon: LayoutDashboard },
-  { title: 'مدیریت قیمت‌ها', path: '/admin/pricing', icon: DollarSign },
-  { title: 'بسته‌های اینترنت', path: '/admin/packages', icon: Wifi },
-  { title: 'روش‌های ارسال', path: '/admin/shipping', icon: Truck },
-  { title: 'سفارش‌ها', path: '/admin/orders', icon: ShoppingBag },
-  { title: 'کدهای تخفیف', path: '/admin/discounts', icon: Tag },
-  { title: 'تنظیمات فروشگاه', path: '/admin/settings', icon: Settings },
-  { title: 'مدیریت محتوا', path: '/admin/content', icon: FileText },
-  { title: 'کاربران پنل', path: '/admin/users', icon: Users },
-  { title: 'گزارش‌ها و آمار', path: '/admin/reports', icon: BarChart3 },
+  { title: 'مدیریت سفارش‌ها', path: '/admin/orders', icon: ShoppingBag },
+  { title: 'تعیین قیمت سیم‌کارت‌ها', path: '/admin/pricing', icon: Tag, ownerOnly: true },
+  { title: 'مدیریت کاربران و دسترسی‌ها', path: '/admin/users', icon: Users, ownerOnly: true },
+  { title: 'پروفایل و تغییر رمز عبور', path: '/admin/profile', icon: KeyRound },
 ];
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({
@@ -55,6 +50,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   pageSubtitle,
 }) => {
   const { path, navigate } = useRouter();
+  const { user, isOwner, logout } = useAuth();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const handleNavClick = (destPath: string) => {
@@ -83,24 +79,38 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {adminNavItems.map((item) => {
             const Icon = item.icon;
+            const isRestricted = item.ownerOnly && !isOwner;
             const isActive =
               item.path === '/admin'
-                ? path === '/admin'
+                ? path === '/admin' || path === '/'
                 : path.startsWith(item.path);
 
             return (
               <button
                 key={item.path}
-                onClick={() => handleNavClick(item.path)}
+                onClick={() => {
+                  if (isRestricted) return;
+                  handleNavClick(item.path);
+                }}
+                disabled={isRestricted}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-right ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  isRestricted
+                    ? 'opacity-40 cursor-not-allowed text-slate-500'
+                    : isActive
+                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20 cursor-pointer'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60 cursor-pointer'
                 }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive && !isRestricted ? 'text-white' : 'text-slate-400'}`} />
                 <span className="flex-1 truncate">{item.title}</span>
-                {isActive && <ChevronLeft className="w-3.5 h-3.5 text-blue-200" />}
+                {isRestricted ? (
+                  <span className="flex items-center gap-1 text-[10px] text-amber-400/80 bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/20">
+                    <Lock className="w-2.5 h-2.5" />
+                    مالک
+                  </span>
+                ) : (
+                  isActive && <ChevronLeft className="w-3.5 h-3.5 text-blue-200" />
+                )}
               </button>
             );
           })}
@@ -150,23 +160,37 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {adminNavItems.map((item) => {
             const Icon = item.icon;
+            const isRestricted = item.ownerOnly && !isOwner;
             const isActive =
               item.path === '/admin'
-                ? path === '/admin'
+                ? path === '/admin' || path === '/'
                 : path.startsWith(item.path);
 
             return (
               <button
                 key={item.path}
-                onClick={() => handleNavClick(item.path)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-right ${
-                  isActive
+                onClick={() => {
+                  if (isRestricted) return;
+                  handleNavClick(item.path);
+                }}
+                disabled={isRestricted}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-right ${
+                  isRestricted
+                    ? 'opacity-40 cursor-not-allowed text-slate-500'
+                    : isActive
                     ? 'bg-blue-600 text-white'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{item.title}</span>
+                <div className="flex items-center gap-3">
+                  <Icon className="w-4 h-4" />
+                  <span>{item.title}</span>
+                </div>
+                {isRestricted && (
+                  <span className="text-[10px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/20">
+                    مخصوص مالک
+                  </span>
+                )}
               </button>
             );
           })}
@@ -215,15 +239,43 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
             <div className="h-4 w-px bg-slate-800 hidden sm:block" />
 
-            <div className="flex items-center gap-2 bg-slate-800/80 px-2.5 py-1.5 rounded-lg border border-slate-700/60">
-              <div className="w-7 h-7 rounded-full bg-blue-600/30 border border-blue-500/50 flex items-center justify-center text-blue-400">
-                <UserCheck className="w-3.5 h-3.5" />
+            {/* Current User Badge & Role */}
+            <button
+              onClick={() => handleNavClick('/admin/profile')}
+              title="مشاهده پروفایل و تغییر رمز عبور"
+              className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-700/60 transition cursor-pointer text-right"
+            >
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center border ${
+                  isOwner
+                    ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
+                    : 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400'
+                }`}
+              >
+                {isOwner ? <Shield className="w-3.5 h-3.5" /> : <KeyRound className="w-3.5 h-3.5" />}
               </div>
               <div className="text-right hidden sm:block">
-                <div className="text-xs font-semibold text-slate-200">مدیر سیستم</div>
-                <div className="text-[10px] text-slate-400">Admin</div>
+                <div className="text-xs font-semibold text-slate-200">
+                  {user?.fullName || 'کاربر پنل'}
+                </div>
+                <div className="text-[10px] font-medium text-slate-400 flex items-center gap-1">
+                  <span>نقش:</span>
+                  <span className={isOwner ? 'text-amber-400 font-bold' : 'text-cyan-400 font-bold'}>
+                    {isOwner ? 'مالک (Owner)' : 'اپراتور (Operator)'}
+                  </span>
+                </div>
               </div>
-            </div>
+            </button>
+
+            {/* Logout Button */}
+            <button
+              onClick={logout}
+              title="خروج از حساب کاربری"
+              className="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-2.5 py-1.5 rounded-lg transition-colors border border-rose-500/30 cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">خروج</span>
+            </button>
           </div>
         </header>
 

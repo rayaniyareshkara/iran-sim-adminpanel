@@ -46,4 +46,20 @@ export const numberService = {
     await new Promise((res) => setTimeout(res, 80));
     return { ...numbersData[0] };
   },
+
+  /**
+   * Update the price for numbers of a specific type ('permanent' | 'credit')
+   */
+  async updatePricesByType(type: 'permanent' | 'credit', newPrice: number): Promise<number> {
+    await new Promise((res) => setTimeout(res, 100));
+    let count = 0;
+    numbersData = numbersData.map((num) => {
+      if (num.type === type) {
+        count++;
+        return { ...num, price: newPrice };
+      }
+      return num;
+    });
+    return count;
+  },
 };
