@@ -1,8 +1,6 @@
 {
-  "name": "Iransiim Admin Panel",
-  "description": "پنل مدیریت فروشگاه سیمکارت ایرانسیم",
+  "name": "Rayanik Blog & Admin",
+  "description": "پنل مدیریت وبلاگ و مقالات رایا‌نیک (rayanik.net)",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

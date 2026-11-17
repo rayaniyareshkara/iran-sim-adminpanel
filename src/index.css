@@ -1,1 +1,150 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "iransansxv", "Vazirmatn", Tahoma, sans-serif;
+  }
+
+  .font-mono-ltr {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+/* Shared rich article typography & CTA button styles (used in Editor, Preview & Blog) */
+.raya-article-content {
+  line-height: 1.95;
+  font-size: 1.02rem;
+}
+
+.raya-article-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.45;
+}
+
+.raya-article-content h3 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.65rem;
+  line-height: 1.5;
+}
+
+.raya-article-content p {
+  margin-bottom: 1.15rem;
+}
+
+.raya-article-content ul {
+  list-style-type: disc;
+  padding-right: 1.5rem;
+  margin-bottom: 1.15rem;
+}
+
+.raya-article-content ol {
+  list-style-type: decimal;
+  padding-right: 1.5rem;
+  margin-bottom: 1.15rem;
+}
+
+.raya-article-content li {
+  margin-bottom: 0.4rem;
+}
+
+.raya-article-content blockquote {
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(110, 69, 233, 0.25);
+  background: rgba(110, 69, 233, 0.06);
+}
+
+.raya-article-content a:not(.raya-btn) {
+  color: #6e45e9;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.raya-article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.85rem;
+  margin: 1.5rem auto;
+  display: block;
+}
+
+.raya-article-content figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.raya-article-content figcaption {
+  font-size: 0.82rem;
+  opacity: 0.72;
+  margin-top: 0.5rem;
+}
+
+/* CTA Buttons inserted inside articles */
+.raya-btn-wrap {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.raya-btn-wrap[data-align="center"] {
+  justify-content: center;
+}
+
+.raya-btn-wrap[data-align="start"] {
+  justify-content: flex-start;
+}
+
+.raya-btn-wrap[data-align="end"] {
+  justify-content: flex-end;
+}
+
+.raya-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  transition: transform 160ms ease, opacity 160ms ease, box-shadow 160ms ease;
+  cursor: pointer;
+}
+
+.raya-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.94;
+}
+
+.raya-btn--primary {
+  background-color: #6e45e9;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px -6px rgba(110, 69, 233, 0.45);
+}
+
+.raya-btn--cyan {
+  background-color: #86defe;
+  color: #110a14 !important;
+  box-shadow: 0 8px 24px -6px rgba(134, 222, 254, 0.35);
+}
+
+.raya-btn--outline {
+  background-color: transparent;
+  color: #6e45e9 !important;
+  border: 1.5px solid #6e45e9;
+}
+
+.raya-btn--dark {
+  background-color: #18181b;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
